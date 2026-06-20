@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.wordly.session.scraper</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/opt/homebrew/bin/python3</string>
+        <string>/Users/wordly_apps/Documents/Code/Wordly_Session_scraper/wordly_session_scraper_v1_1.py</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>/Users/wordly_apps/Documents/Code/Wordly_Session_scraper</string>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>2</integer>
+        <key>Minute</key>
+        <integer>30</integer>
+    </dict>
+    <key>StandardOutPath</key>
+    <string>/Users/wordly_apps/Documents/Code/Wordly_Session_scraper/logs/session_scraper.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/wordly_apps/Documents/Code/Wordly_Session_scraper/logs/session_scraper_error.log</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+        <key>HOME</key>
+        <string>/Users/wordly_apps</string>
+    </dict>
+    <key>RunAtLoad</key>
+    <false/>
+    <key>KeepAlive</key>
+    <false/>
+</dict>
+</plist>

@@ -1,0 +1,9 @@
+wordly_creds.txt
+wordly_session_state.json
+slack_webhook.txt
+__pycache__/
+*.pyc
+logs/
+downloads/
+DATA/
+Old/
