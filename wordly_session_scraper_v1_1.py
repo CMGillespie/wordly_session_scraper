@@ -26,10 +26,14 @@ SLACK_FILE   = os.path.join(SCRIPT_DIR, "slack_webhook.txt")
 SESSION_FILE = "/Users/wordly_apps/Documents/Code/Wordly_Usage_to_HS/wordly_session_state.json"
 
 # GCP / BQ
-PROJECT_ID   = "support-467322"
-BQ_DATASET   = "wordly_session_data"
-BQ_TABLE     = "sessions"
-BQ_TABLE_REF = f"{PROJECT_ID}.{BQ_DATASET}.{BQ_TABLE}"
+PROJECT_ID      = "support-467322"
+BQ_DATASET      = "wordly_session_data"
+BQ_TABLE        = "sessions"
+BQ_TABLE_REF    = f"{PROJECT_ID}.{BQ_DATASET}.{BQ_TABLE}"
+
+# Secondary write target — us-central1 for HS push join
+BQ_DATASET_CENTRAL  = "wordly_session_data_central"
+BQ_TABLE_REF_CENTRAL = f"{PROJECT_ID}.{BQ_DATASET_CENTRAL}.{BQ_TABLE}"
 
 # Headless — always False now (MFA requires visible browser)
 HEADLESS = False
@@ -420,9 +424,19 @@ def write_to_bq(df):
             bigquery.SchemaUpdateOption.ALLOW_FIELD_RELAXATION,
         ],
     )
+    # Primary write — US region
     job = client.load_table_from_dataframe(df, BQ_TABLE_REF, job_config=job_config)
     job.result()
     print(f"  ✅ BQ: {len(df)} rows written to {BQ_TABLE_REF}")
+
+    # Secondary write — us-central1 for HS push join
+    try:
+        job2 = client.load_table_from_dataframe(df, BQ_TABLE_REF_CENTRAL, job_config=job_config)
+        job2.result()
+        print(f"  ✅ BQ: {len(df)} rows written to {BQ_TABLE_REF_CENTRAL}")
+    except Exception as e:
+        print(f"  ⚠️ Central write failed (non-fatal): {e}")
+
     return len(df)
 
 
